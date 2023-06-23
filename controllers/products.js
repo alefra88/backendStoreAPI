@@ -26,11 +26,14 @@ const getAllProducts = async (req, res) => {
   }
   console.log(queryObject);
 
-  let result = await Product.find(queryObject);
+  let result = Product.find(queryObject);
   if (sort) {
-    products = products.sort();
+    const sortList = sort.split(",").join(" ");
+    result = result.sort(sortList);
+  } else {
+    result = result.sort("CreateAt");
   }
-  const product = await result
+  const products = await result;
   res.status(200).json({ products, nbHits: products.length });
 };
 
